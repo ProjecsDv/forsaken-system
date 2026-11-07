@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>teleporter</title>
+<style>
+body{background:#111;color:#fff;font-family:monospace;padding:20px}
+pre{background:#1e1e1e;padding:15px;white-space:pre-wrap}
+button{padding:10px 15px;cursor:pointer}
+</style>
+</head>
+<body>
+<h3>teleporter forsaken</h3>
+<button onclick="copiar()">copiar</button>
+<pre id="codigo">-- ServerScriptService / Script
+
+local TeleportService = game:GetService("TeleportService")
+
+local FORSAKEN_PLACE_ID = 18687417158
+
+local function ShouldReserveServer(player)
+	if player.Name == "erickrato08" then
+		return true
+	end
+	return false
+end
+
+local function Teleport(player)
+	task.wait(2)
+
+	local code = TeleportService:ReserveServer(FORSAKEN_PLACE_ID)
+	TeleportService:TeleportToPrivateServer(FORSAKEN_PLACE_ID, code, { player })
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+	if ShouldReserveServer(player) then
+		Teleport(player)
+	end
+end)
+
+TeleportService.TeleportInitFailed:Connect(function(player)
+	if ShouldReserveServer(player) then
+		task.wait(3)
+		Teleport(player)
+	end
+end)</pre>
+<script>
+function copiar(){
+  navigator.clipboard.writeText(document.getElementById("codigo").innerText)
+}
+</script>
+</body>
+</html>
